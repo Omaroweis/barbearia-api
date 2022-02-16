@@ -5,7 +5,7 @@ import java.sql.Date;
 public class HorariosDisponiveisPorDiaDTO {
   Date date;
   
-  String cpf_prestador;
+  Long id_prestador;
 
   public Date getDate() {
     return date;
@@ -15,13 +15,14 @@ public class HorariosDisponiveisPorDiaDTO {
     this.date = date;
   }
 
-  public String getCpf_prestador() {
-    return cpf_prestador;
+  public Long getId() {
+    return id_prestador;
   }
 
-  public void setCpf_prestador(String cpf_prestador) {
-    this.cpf_prestador = cpf_prestador;
+  public void setId_prestador(Long id) {
+    this.id_prestador = id;
   }
+
   
   
   

@@ -10,9 +10,9 @@ public interface ClienteInterfaceDAO {
   
   void save(Cliente t);
   
-  Cliente getById(String cpf) throws Exception;
+  Cliente getById(Long id) throws Exception;
   
-  void update(Cliente p);
+  void update(Cliente p, Long id);
   
-  void delete(Cliente cliente);
+  void delete(Long id);
 }

@@ -53,39 +53,42 @@ String sql = "INSERT INTO prestador(nome, cpf) VALUES (:nome, :cpf)";
   }
 
   @Override
-  public Prestador getById(String cpf) throws Exception {
-    String sql = "SELECT * FROM prestador WHERE cpf = :cpf";
+  public Prestador getById(Long id) {
+    // TODO: tratar exceçoes
+    
+    String sql = "SELECT * FROM prestador WHERE id = :id";
     KeyHolder holder = new GeneratedKeyHolder();
     
     SqlParameterSource param = new MapSqlParameterSource()
-        .addValue("cpf", cpf);
+        .addValue("id", id);
     List<Prestador> listaProvisoria = template.query(sql, param, new PrestadorRowMapper());
-    if(listaProvisoria.size() <= 0)
-      throw new Exception("Nao existe prestador com esse cpf!");
+    
     
     return listaProvisoria.get(0);
   }
 
   @Override
-  public void update(Prestador prestador) {
-    String sql = "UPDATE prestador set nome = :nome, cpf= :cpf WHERE cpf = :cpf_param";
+  public void update(Prestador prestador, Long id) {
+    // TODO: tratar exceções
+    
+    String sql = "UPDATE prestador set nome = :nome, cpf= :cpf WHERE id =:id";
     KeyHolder holder = new GeneratedKeyHolder();
     SqlParameterSource param = new MapSqlParameterSource()
         .addValue("nome",prestador.getNome())
         .addValue("cpf", prestador.getCpf())
-        .addValue("cpf_param",prestador.getCpf());
+        .addValue("id",id);
     
     template.update(sql,param, holder);
     
   }
 
   @Override
-  public void delete(Prestador prestador) {
- String sql = "DELETE FROM prestador WHERE cpf = :cpf";
+  public void delete(Long id) {
+ String sql = "DELETE FROM prestador WHERE id =:id";
     
     HashMap<String,Object> map = new HashMap<String,Object>();
     
-    map.put("cpf", prestador.getCpf());
+    map.put("id", id);
     
     template.execute(sql,map,new PreparedStatementCallback<Object>() {  
       @Override  

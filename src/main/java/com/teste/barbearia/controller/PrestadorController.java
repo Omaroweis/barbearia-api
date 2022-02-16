@@ -32,8 +32,13 @@ public class PrestadorController {
   }
   @ResponseStatus(value = HttpStatus.OK)
   @GetMapping(value = "/obterPrestador")
-  public Prestador getPRestador(@RequestParam(required = true) String cpf) throws Exception {
-    return prestadorService.getPrestador(cpf);
+  public Prestador getPRestador(@RequestParam(required = false) String cpf, @RequestParam(required = false) Long id) throws Exception {
+    if(cpf != null)
+      return prestadorService.getPrestador(cpf);
+    if(id != null)
+      return prestadorService.getPrestador(id);
+    // TODO tratar quando nenhum parametro vem setado
+    return null;
   }
   
   @PutMapping(value="/atualizar")
@@ -44,8 +49,8 @@ public class PrestadorController {
   
   @ResponseStatus(value=HttpStatus.OK)
   @DeleteMapping(value = "/Deletar")
-  public String apagarAgendamento(@RequestBody Prestador prestador) throws Exception{
-    return this.prestadorService.deletarPrestador(prestador);
+  public String apagarAgendamento(@RequestParam Long id) throws Exception{
+    return this.prestadorService.deletarPrestador(id);
   }
   
 }

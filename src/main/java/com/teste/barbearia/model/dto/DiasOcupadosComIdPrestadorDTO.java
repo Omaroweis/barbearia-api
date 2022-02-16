@@ -1,14 +1,14 @@
 package com.teste.barbearia.model.dto;
 
-public class DiasOcupadosComCpfPrestadorDTO {
+public class DiasOcupadosComIdPrestadorDTO {
   private Integer diaOcupado;
   private Integer quantidade;
-  private String cpf_prestador;
-  public String getCpf_prestador() {
-    return cpf_prestador;
+  private Long id_prestador;
+  public Long getId_prestador() {
+    return id_prestador;
   }
-  public void setCpf_prestador(String cpf_prestador) {
-    this.cpf_prestador = cpf_prestador;
+  public void setId_prestador(Long id_prestador) {
+    this.id_prestador = id_prestador;
   }
   public Integer getDiaOcupado() {
     return diaOcupado;

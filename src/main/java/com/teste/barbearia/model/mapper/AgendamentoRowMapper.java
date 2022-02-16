@@ -13,10 +13,11 @@ public class AgendamentoRowMapper implements RowMapper<Agendamento>{
   @Override
   public Agendamento mapRow(ResultSet rs, int rowNum) throws SQLException {
     Agendamento agendamento= new Agendamento();
-    agendamento.setCpf_cliente(rs.getString("cpf_cliente"));
-    agendamento.setCpf_prestador(rs.getString("cpf_prestador"));
+    agendamento.setId(Long.valueOf(rs.getString("id")));
+    agendamento.setId_cliente(Long.valueOf(rs.getString("id_cliente")));
+    agendamento.setId_prestador(Long.valueOf(rs.getString("id_prestador")));
     agendamento.setDate(rs.getDate("data"));
-    agendamento.setHorario(rs.getString("horario"));
+    agendamento.setHorario(rs.getTime("horario"));
 
     
     return agendamento;

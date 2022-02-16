@@ -13,23 +13,38 @@ public class PrestadorService {
   private PrestadorDAO prestadorDAO;
   public Prestador insere(Prestador prestador) {
    prestadorDAO.save(prestador);
-   return prestador;
+   return this.prestadorDAO.search(prestador.getCpf()).get(0);
   }
-
+  
+  public Prestador getPrestador(Long id) {
+    // TODO: tratar exceções
+    
+    return prestadorDAO.getById(id);
+  }
+  
   public Prestador getPrestador(String cpf) throws Exception {
-   return prestadorDAO.getById(cpf);
+    // TODO: tratar excecoes
+    
+    Prestador prestador = this.prestadorDAO.search(cpf).get(0);
+    
+    return prestadorDAO.getById(prestador.getId());
   }
 
-  public Prestador updatePrestador(Prestador prestador) {
-   this.prestadorDAO.update(prestador);
-   return prestador;
+  public Prestador updatePrestador(Prestador prestador) throws Exception{
+   // TODO: tratar exceção
+
+     Long id = prestador.getId();
+     if(this.prestadorDAO.getById(id) == null) {
+       throw new Exception();
+     }
+     this.prestadorDAO.update(prestador, id);
+     return prestador;
   }
 
-  public String deletarPrestador(Prestador prestador)throws Exception {
+  public String deletarPrestador(Long id)throws Exception {
 
-    if(prestadorDAO.search(prestador.getCpf()).isEmpty())
-      throw new Exception("nao existe nenhum prestador com esses dados");
-    this.prestadorDAO.delete(prestador);
+    // TODO: tratar exceções
+    this.prestadorDAO.delete(id);
     return "Prestador removido com sucesso!";
   }
 

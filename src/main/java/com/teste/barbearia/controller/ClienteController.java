@@ -42,14 +42,14 @@ public class ClienteController {
     
   }
   @ResponseStatus(value = HttpStatus.OK)
-  @GetMapping(value = "/prestadoresDisponiveis")
-  public List<Prestador> getPrestadoresPelaData(@RequestBody Agendamento agendamento) {
-    return clienteService.prestadoresDisponiveisPeloHorario(agendamento);
-  }
-  @ResponseStatus(value = HttpStatus.OK)
   @GetMapping(value = "/obterCliente")
-  public Cliente getCliente(@RequestParam(required = true) String cpf) throws Exception {
-    return clienteService.getCliente(cpf);
+  public Cliente getCliente(@RequestParam(required = false) String cpf, @RequestParam(required = false) Long id) throws Exception {
+    if(cpf != null)
+      return clienteService.getCliente(cpf);
+    if(id != null)
+      return clienteService.getCliente(id);
+    return null;
+    // TODO: tratar caso em que nenhum parametro vem setado
   }
   
   @PutMapping(value="/atualizar")
@@ -62,35 +62,11 @@ public class ClienteController {
   public List<Prestador> obterPrestadores() {
     return clienteService.listAllPrestadores();
   }
-  @ResponseStatus(value = HttpStatus.OK)
-  @GetMapping(value = "/PrestadoresPorMes")
-  public List<Integer> obterPrestadoresPorMes(@RequestBody DiaDisponiveisPorMesDTO diaDisponiveisPorMesDTO) throws Exception{
-    return this.clienteService.listaPrestadoresByMes(diaDisponiveisPorMesDTO);
-  }
-  @ResponseStatus(value=HttpStatus.OK)
-  @GetMapping(value = "/HorariosPorDia")
-  public List<String> obterHorariosPorDia(@RequestBody HorariosDisponiveisPorDiaDTO horariosDisponiveisPorDiaDTO ){
-    return this.clienteService.ListHorarioByDia(horariosDisponiveisPorDiaDTO.getDate(), horariosDisponiveisPorDiaDTO.getCpf_prestador());
-  }
   
-  @ResponseStatus(value=HttpStatus.OK)
-  @PostMapping(value = "/Agendar")
-  public Agendamento agendar(@RequestBody Agendamento agendamento) throws Exception {
-    try{
-      return this.clienteService.agendar(agendamento);
-    }catch (Exception e) {
-      throw e;
-    }
-  }
-  @ResponseStatus(value=HttpStatus.OK)
-  @DeleteMapping(value = "/DeletarAgendamento")
-  public String apagarAgendamento(@RequestBody Agendamento agendamento) throws Exception{
-    return this.clienteService.deletarAgendamento(agendamento);
-  }
   
   @ResponseStatus(value=HttpStatus.OK)
   @DeleteMapping(value = "/DeletarCliente")
-  public String apagarCliente(@RequestBody Cliente cliente) throws Exception{
-    return this.clienteService.deletarCliente(cliente);
+  public String apagarCliente(@RequestParam Long id) throws Exception{
+    return this.clienteService.deletarCliente(id);
   }
 }

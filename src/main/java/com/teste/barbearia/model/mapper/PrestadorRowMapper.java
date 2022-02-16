@@ -13,6 +13,7 @@ public class PrestadorRowMapper implements RowMapper<Prestador>{
   @Override
   public Prestador mapRow(ResultSet rs, int rowNum) throws SQLException {
     Prestador prestador = new Prestador();
+    prestador.setId(Long.valueOf(rs.getString("id")));
     prestador.setCpf(rs.getString("cpf"));
     prestador.setNome(rs.getString("nome"));
     

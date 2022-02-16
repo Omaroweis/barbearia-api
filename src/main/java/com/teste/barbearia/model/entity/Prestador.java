@@ -14,11 +14,17 @@ import javafx.beans.property.adapter.JavaBeanObjectProperty;
 
 
 public class Prestador{
-  
+  private Long id;
   private String cpf;
   private String nome;
   public String getCpf() {
     return cpf;
+  }
+  public Long getId() {
+    return id;
+  }
+  public void setId(Long id) {
+    this.id = id;
   }
   public void setCpf(String cpf) {
     CPFValidator cpfValidator = new CPFValidator(); 

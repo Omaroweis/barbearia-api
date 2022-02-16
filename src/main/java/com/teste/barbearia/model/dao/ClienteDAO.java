@@ -52,39 +52,41 @@ public class ClienteDAO implements ClienteInterfaceDAO{
   }
 
   @Override
-  public Cliente getById(String cpf) throws Exception {
-    String sql = "SELECT * FROM cliente WHERE cpf = :cpf";
+  public Cliente getById(Long id)  {
+    // TODO: tratar exceções
+    String sql = "SELECT * FROM cliente WHERE id = :id";
     KeyHolder holder = new GeneratedKeyHolder();
     
     SqlParameterSource param = new MapSqlParameterSource()
-        .addValue("cpf", cpf);
+        .addValue("id", id);
     List<Cliente> listaProvisoria = template.query(sql, param, new ClienteRowMapper());
-    if(listaProvisoria.size() <= 0)
-      throw new Exception("Nao existe cliente com esse cpf!");
+//    if(listaProvisoria.size() <= 0)
+//      throw new Exception("Nao existe cliente com esse cpf!");
     
     return listaProvisoria.get(0);
   }
 
   @Override
-  public void update(Cliente p) {
-    String sql = "UPDATE cliente set nome = :nome, cpf= :cpf WHERE cpf = :cpf_param";
+  public void update(Cliente p, Long id) {
+    // TODO: tratar excecoes 
+    String sql = "UPDATE cliente set nome = :nome, cpf= :cpf WHERE id = :id";
     KeyHolder holder = new GeneratedKeyHolder();
     SqlParameterSource param = new MapSqlParameterSource()
         .addValue("nome",p.getNome())
         .addValue("cpf", p.getCpf())
-        .addValue("cpf_param",p.getCpf());
+        .addValue("id",id);
     
     template.update(sql,param, holder);
     
   }
 
   @Override
-  public void delete(Cliente cliente) {
-    String sql = "DELETE FROM cliente WHERE cpf = :cpf";
+  public void delete(Long id) {
+    String sql = "DELETE FROM cliente WHERE id = :id";
     
     HashMap<String,Object> map = new HashMap<String,Object>();
     
-    map.put("cpf", cliente.getCpf());
+    map.put("id", id);
     
     template.execute(sql,map,new PreparedStatementCallback<Object>() {  
       @Override  

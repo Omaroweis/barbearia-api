@@ -13,13 +13,17 @@ public interface AgendamentoInterfaceDAO{
   
   void save(Agendamento agendamento);
   
-  Agendamento getById(String cpf_prestador, Date data, Horarios horario) throws Exception;
+   
+  Agendamento getById(Long id);
   
-  void update(Agendamento agendamento, String cpf_prestador_param, Horarios horario_param, Date data_param);
+  Agendamento getByConstraint(Long id_prestador, Date data, Horarios horario);
+ 
   
   void delete(Agendamento agendamento);
   
-  List<Agendamento> listByCliente(String cpf_cliente);
+  void delete(Long id);
   
-  List<Agendamento> listByPrestador(String cpf_prestador);
+  List<Agendamento> listByCliente(Long id_liente);
+  
+  List<Agendamento> listByPrestador(Long id_prestador);
 }

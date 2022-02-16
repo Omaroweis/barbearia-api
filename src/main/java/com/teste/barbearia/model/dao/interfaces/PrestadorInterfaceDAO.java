@@ -12,9 +12,9 @@ public interface PrestadorInterfaceDAO {
   
   void save(Prestador prestador);
   
-  Prestador getById(String cpf) throws Exception;
+  Prestador getById(Long id) throws Exception;
   
-  void update(Prestador prestador);
+  void update(Prestador prestador, Long id);
   
-  void delete(Prestador prestador);
+  void delete(Long id);
 }

@@ -2,6 +2,7 @@ package com.teste.barbearia.model.entity;
 
 import java.util.Calendar;
 import java.sql.Date;
+import java.sql.Time;
 
 import javax.annotation.Generated;
 import javax.persistence.CascadeType;
@@ -29,30 +30,18 @@ import com.teste.barbearia.model.enuns.Horarios;
 
 
 public class Agendamento {
-
-  private String cpf_cliente;
-  private String cpf_prestador;
+  private Long id;
+  private Long id_cliente;
+  private Long id_prestador;
   private Horarios horario;
   private Date date;
-
-
-  public String getCpf_cliente() {
-    return cpf_cliente;
+  public Long getId() {
+    return id;
   }
 
 
-  public void setCpf_cliente(String cpf_cliente) {
-    this.cpf_cliente = cpf_cliente;
-  }
-
-
-  public String getCpf_prestador() {
-    return cpf_prestador;
-  }
-
-
-  public void setCpf_prestador(String cpf_prestador) {
-    this.cpf_prestador = cpf_prestador;
+  public void setId(Long id) {
+    this.id = id;
   }
 
 
@@ -72,33 +61,77 @@ public class Agendamento {
 
 
   public void setHorario(String horaString) {
-    if(horaString.compareTo("OITO") == 0) {
+    if(horaString.compareTo("OITO") == 0 || horaString.compareTo("08:00:00") == 0) {
       this.horario = Horarios.OITO;
-    }else if(horaString.compareTo("NOVE") == 0) {
+    }else if(horaString.compareTo("NOVE") == 0 || horaString.compareTo("09:00:00") == 0) {
       this.horario = Horarios.NOVE;
-    }else if(horaString.compareTo("DEZ") == 0) {
+    }else if(horaString.compareTo("DEZ") == 0 || horaString.compareTo("10:00:00") == 0) {
       this.horario = Horarios.DEZ;
-    }else if(horaString.compareTo("ONZE") == 0) {
+    }else if(horaString.compareTo("ONZE") == 0 || horaString.compareTo("11:00:00") == 0) {
       this.horario = Horarios.ONZE;
-    }else if(horaString.compareTo("DOZE") == 0) {
+    }else if(horaString.compareTo("DOZE") == 0 || horaString.compareTo("12:00:00") == 0) {
       this.horario = Horarios.DOZE;
-    }else if(horaString.compareTo("TREZE") == 0) {
+    }else if(horaString.compareTo("TREZE") == 0 || horaString.compareTo("13:00:00") == 0) {
       this.horario = Horarios.TREZE;
-    }else if(horaString.compareTo("QUATORZE") == 0) {
+    }else if(horaString.compareTo("QUATORZE") == 0 || horaString.compareTo("14:00:00") == 0) {
       this.horario = Horarios.QUATORZE;
-    }else if(horaString.compareTo("QUINZE") == 0) {
+    }else if(horaString.compareTo("QUINZE") == 0 || horaString.compareTo("15:00:00") == 0) {
       this.horario = Horarios.QUINZE;
-    }else if(horaString.compareTo("DEZESSEIS") == 0) {
+    }else if(horaString.compareTo("DEZESSEIS") == 0 || horaString.compareTo("16:00:00") == 0) {
       this.horario = Horarios.DEZESSEIS;
-    }else if(horaString.compareTo("DEZESSETE") == 0) 
+    }else if(horaString.compareTo("DEZESSETE") == 0 || horaString.compareTo("17:00:00") == 0) 
       this.horario = Horarios.DEZESSETE;
     
   }
-  
+  public void setHorario(Time hora) {
+    String horaString = hora.toString();
+    
+    if(horaString.compareTo("08:00:00") == 0) {
+      this.horario = Horarios.OITO;
+    }else if(horaString.compareTo("09:00:00") == 0) {
+      this.horario = Horarios.NOVE;
+    }else if(horaString.compareTo("10:00:00") == 0) {
+      this.horario = Horarios.DEZ;
+    }else if(horaString.compareTo("11:00:00") == 0) {
+      this.horario = Horarios.ONZE;
+    }else if(horaString.compareTo("12:00:00") == 0) {
+      this.horario = Horarios.DOZE;
+    }else if(horaString.compareTo("13:00:00") == 0) {
+      this.horario = Horarios.TREZE;
+    }else if(horaString.compareTo("14:00:00") == 0) {
+      this.horario = Horarios.QUATORZE;
+    }else if(horaString.compareTo("15:00:00") == 0) {
+      this.horario = Horarios.QUINZE;
+    }else if(horaString.compareTo("16:00:00") == 0) {
+      this.horario = Horarios.DEZESSEIS;
+    }else if(horaString.compareTo("17:00:00") == 0) 
+      this.horario = Horarios.DEZESSETE;
+    
+  }
   @Override
   public String toString() {
     
-    return "cpf_cliente: "+this.cpf_cliente + " cpf_prestador "+ this.cpf_prestador + " horario: " + this.horario + " DATA: " + this.date;
+    return "id_cliente: "+this.id_cliente + " id_prestador "+ this.id_prestador + " horario: " + this.horario + " DATA: " + this.date;
+  }
+
+
+  public Long getId_cliente() {
+    return id_cliente;
+  }
+
+
+  public void setId_cliente(Long id_cliente) {
+    this.id_cliente = id_cliente;
+  }
+
+
+  public Long getId_prestador() {
+    return id_prestador;
+  }
+
+
+  public void setId_prestador(Long id_prestador) {
+    this.id_prestador = id_prestador;
   }
   
 }
