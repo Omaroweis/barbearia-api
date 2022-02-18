@@ -53,8 +53,8 @@ String sql = "INSERT INTO prestador(nome, cpf) VALUES (:nome, :cpf)";
   }
 
   @Override
-  public Prestador getById(Long id) {
-    // TODO: tratar exceçoes
+  public List<Prestador> getById(Long id) {
+    
     
     String sql = "SELECT * FROM prestador WHERE id = :id";
     KeyHolder holder = new GeneratedKeyHolder();
@@ -64,13 +64,12 @@ String sql = "INSERT INTO prestador(nome, cpf) VALUES (:nome, :cpf)";
     List<Prestador> listaProvisoria = template.query(sql, param, new PrestadorRowMapper());
     
     
-    return listaProvisoria.get(0);
+    return listaProvisoria;
   }
 
   @Override
   public void update(Prestador prestador, Long id) {
-    // TODO: tratar exceções
-    
+        
     String sql = "UPDATE prestador set nome = :nome, cpf= :cpf WHERE id =:id";
     KeyHolder holder = new GeneratedKeyHolder();
     SqlParameterSource param = new MapSqlParameterSource()

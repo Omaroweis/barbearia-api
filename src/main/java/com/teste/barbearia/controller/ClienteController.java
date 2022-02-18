@@ -17,12 +17,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.teste.barbearia.exception.ApiRequestException;
 import com.teste.barbearia.model.dto.DiaDisponiveisPorMesDTO;
 import com.teste.barbearia.model.dto.HorariosDisponiveisPorDiaDTO;
 import com.teste.barbearia.model.entity.Agendamento;
 import com.teste.barbearia.model.entity.Cliente;
 import com.teste.barbearia.model.entity.Prestador;
 import com.teste.barbearia.model.enuns.Horarios;
+import com.teste.barbearia.model.enuns.Mensagens;
 import com.teste.barbearia.service.ClienteService;
 @RestController
 @RequestMapping("/clientes")
@@ -48,8 +50,8 @@ public class ClienteController {
       return clienteService.getCliente(cpf);
     if(id != null)
       return clienteService.getCliente(id);
-    return null;
-    // TODO: tratar caso em que nenhum parametro vem setado
+    
+    throw new ApiRequestException(Mensagens.ERRO_FALTA_ID_CPF.getMensagem());
   }
   
   @PutMapping(value="/atualizar")

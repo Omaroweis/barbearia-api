@@ -12,7 +12,7 @@ public interface PrestadorInterfaceDAO {
   
   void save(Prestador prestador);
   
-  Prestador getById(Long id) throws Exception;
+  List<Prestador> getById(Long id) throws Exception;
   
   void update(Prestador prestador, Long id);
   

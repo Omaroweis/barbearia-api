@@ -52,23 +52,20 @@ public class ClienteDAO implements ClienteInterfaceDAO{
   }
 
   @Override
-  public Cliente getById(Long id)  {
-    // TODO: tratar exceções
+  public List<Cliente> getById(Long id)  {
+    
     String sql = "SELECT * FROM cliente WHERE id = :id";
     KeyHolder holder = new GeneratedKeyHolder();
     
     SqlParameterSource param = new MapSqlParameterSource()
         .addValue("id", id);
-    List<Cliente> listaProvisoria = template.query(sql, param, new ClienteRowMapper());
-//    if(listaProvisoria.size() <= 0)
-//      throw new Exception("Nao existe cliente com esse cpf!");
-    
-    return listaProvisoria.get(0);
+    List<Cliente> listaProvisoria = template.query(sql, param, new ClienteRowMapper());    
+    return listaProvisoria;
   }
 
   @Override
   public void update(Cliente p, Long id) {
-    // TODO: tratar excecoes 
+    
     String sql = "UPDATE cliente set nome = :nome, cpf= :cpf WHERE id = :id";
     KeyHolder holder = new GeneratedKeyHolder();
     SqlParameterSource param = new MapSqlParameterSource()

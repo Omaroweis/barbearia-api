@@ -12,8 +12,10 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.hibernate.hql.internal.classic.AbstractParameterInformation;
 import org.springframework.stereotype.Component;
 
+import com.teste.barbearia.exception.ApiRequestException;
 import com.teste.barbearia.model.dao.AgendamentoDAO;
 import com.teste.barbearia.model.dao.ClienteDAO;
 import com.teste.barbearia.model.dao.PrestadorDAO;
@@ -22,6 +24,7 @@ import com.teste.barbearia.model.dto.HorariosDisponiveisPorDiaDTO;
 import com.teste.barbearia.model.entity.Agendamento;
 import com.teste.barbearia.model.entity.Prestador;
 import com.teste.barbearia.model.enuns.Horarios;
+import com.teste.barbearia.model.enuns.Mensagens;
 @Component
 public class AgendamentoService {
   
@@ -34,10 +37,10 @@ public class AgendamentoService {
   
   public List<Integer> listaPrestadoresByMes(DiaDisponiveisPorMesDTO diaDisponiveisPorMesDTO)throws Exception{
     if(Integer.valueOf(diaDisponiveisPorMesDTO.getMes()) > 12) {
-      throw new Exception("Mes invalido!");
+      throw new ApiRequestException(Mensagens.ERRO_MES_INVALIDO.getMensagem());
     }
-    if(prestadorDAO.getById(diaDisponiveisPorMesDTO.getId_prestador()) == null)
-      throw new Exception("Prestador invalido!");
+    if(prestadorDAO.getById(diaDisponiveisPorMesDTO.getId_prestador()).isEmpty())
+      throw new ApiRequestException(Mensagens.ERRO_PRESTADOR_INVALIDO.getMensagem());
     
    List<Integer> ocupados = agendamentoDAO.listDiasOcupadosByMesAndPrestador(diaDisponiveisPorMesDTO.getMes(), diaDisponiveisPorMesDTO.getId_prestador());
  
@@ -63,33 +66,39 @@ public class AgendamentoService {
     }
   }
   
-  public Agendamento agendar(Agendamento agendamento) throws Exception {
-    
-    System.out.println("SERVICE######");
+  public Agendamento agendar(Agendamento agendamento) {
     
     System.out.println(agendamento);
+    
+    if(agendamento.getHorario() == null)
+      throw new ApiRequestException(Mensagens.ERRO_HORARIO_INVALIDO.getMensagem());
+    if(agendamento.getDate() == null)
+      throw new ApiRequestException(Mensagens.ERRO_DATA_INVALIDA.getMensagem());
+    if(agendamento.getId_cliente() == null)
+      throw new ApiRequestException(Mensagens.ERRO_CLIENTE_INVALIDO.getMensagem());
+    if(agendamento.getId_prestador() == null)
+      throw new ApiRequestException(Mensagens.ERRO_PRESTADOR_INVALIDO.getMensagem());
+    if(this.clienteDAO.getById(agendamento.getId_cliente()).isEmpty()) 
+      throw new ApiRequestException(Mensagens.ERRO_CLIENTE_INVALIDO.getMensagem());
+    if(this.prestadorDAO.getById(agendamento.getId_prestador()).isEmpty())
+      throw new ApiRequestException(Mensagens.ERRO_PRESTADOR_INVALIDO.getMensagem());
     
     LocalDate dataAgendamento = agendamento.getDate().toLocalDate();
     LocalDate hoje = LocalDate.now();
     if(hoje.isAfter(dataAgendamento)) {
-      throw new Exception("Impossivel agendar para o passado");
+      throw new ApiRequestException(Mensagens.ERRO_AGENDAMENTO_PASSADO.getMensagem());
     }
     if(hoje.equals(dataAgendamento)) {
       if(IsHorarioInvaldo(agendamento.getHorario())) {
-        throw new Exception("Esse horario ja passou");
+        throw new ApiRequestException(Mensagens.ERRO_AGENDAMENTO_PASSADO.getMensagem());
       }
     }
     if(!this.agendamentoDAO.searchByCliente(agendamento).isEmpty()) {
-      throw new Exception("Cliente ja tem agendamento marcado pra esse dia e horario");
+      throw new ApiRequestException(Mensagens.ERRO_AGENDAMENTO_MARCADO_MESMO_HORARIO_CLIENTE.getMensagem());
     }
-    // TODO: tratar exceções
-    System.out.println("TESTE#################");
-    System.out.println();
-    System.out.println();
-    System.out.println();
-    System.out.println();
+    
     this.agendamentoDAO.save(agendamento);
-    return agendamentoDAO.getByConstraint(agendamento.getId_prestador(), agendamento.getDate(), agendamento.getHorario());
+    return agendamentoDAO.getByConstraint(agendamento.getId_prestador(), agendamento.getDate(), agendamento.getHorario()).get(0);
   
     
 
@@ -108,7 +117,8 @@ private boolean IsHorarioInvaldo(Horarios horario) {
 
   public String deletarAgendamento(Long id) throws Exception{
     
-   // tratar exceções
+    if(this.agendamentoDAO.getById(id).isEmpty())
+      throw new ApiRequestException(Mensagens.ERRO_AGENDAMENTO_NAO_EXISTE.getMensagem());
     this.agendamentoDAO.delete(id);
     return "Agendamento removido com sucesso!";
     
@@ -116,7 +126,15 @@ private boolean IsHorarioInvaldo(Horarios horario) {
   }
   
   public ArrayList<String> ListHorarioByDia(HorariosDisponiveisPorDiaDTO horariosDisponiveisPorDiaDTO) {
+    
+    if(horariosDisponiveisPorDiaDTO.getDate() == null)
+      throw new ApiRequestException(Mensagens.ERRO_DATA_INVALIDA.getMensagem());
+    
+    if(this.prestadorDAO.getById(horariosDisponiveisPorDiaDTO.getId()).isEmpty())
+      throw new ApiRequestException(Mensagens.ERRO_PRESTADOR_INVALIDO.getMensagem());
+    
     List<LocalTime> horariosOcupados = this.agendamentoDAO.listHorariosOcupadosByData(horariosDisponiveisPorDiaDTO.getDate(), horariosDisponiveisPorDiaDTO.getId());
+    
     
     
     final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
@@ -131,29 +149,17 @@ private boolean IsHorarioInvaldo(Horarios horario) {
     
 
     HashSet<String> horariosOcupadosString  = new HashSet<>();
-    horariosOcupados.forEach(h-> horariosOcupadosString.add(h.toString()));    
+    horariosOcupados.forEach(h-> 
+    horariosOcupadosString.add(h.toString()));    
     
     todos.removeAll(horariosOcupadosString);
     return new ArrayList<String>(todos);
     
   }
   
-  public ArrayList<Prestador> prestadoresDisponiveisPeloHorario(Agendamento agendamento){
-    Date data = agendamento.getDate();
-    Horarios horario = agendamento.getHorario();
-    
-   
-    
-    HashSet<Prestador> ocupadosPorHorario = new HashSet<>((ArrayList<Prestador>) agendamentoDAO.listPrestadoresByDataAndHorario(data, horario));
-    
-    HashSet<Prestador> todos = new HashSet<>((ArrayList<Prestador>) prestadorDAO.list());   
-
-    todos.removeAll(ocupadosPorHorario);
-    
-    return new ArrayList<>(todos);
-  }
   public Agendamento getById(Long id) {
-   
-    return this.agendamentoDAO.getById(id);
+   if(this.agendamentoDAO.getById(id).isEmpty())
+     throw new ApiRequestException(Mensagens.ERRO_AGENDAMENTO_NAO_EXISTE.getMensagem());
+    return this.agendamentoDAO.getById(id).get(0);
   }
 }

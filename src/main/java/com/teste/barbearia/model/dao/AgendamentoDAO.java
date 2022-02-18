@@ -69,7 +69,7 @@ public class AgendamentoDAO implements AgendamentoInterfaceDAO{
   }
 
   @Override
-  public Agendamento getById(Long id) {
+  public List<Agendamento> getById(Long id) {
     String sql = "SELECT * FROM agendamento WHERE id = :id";
     KeyHolder holder = new GeneratedKeyHolder();
     
@@ -79,7 +79,7 @@ public class AgendamentoDAO implements AgendamentoInterfaceDAO{
 //    if(listaProvisoria.size() <= 0)
 //      throw new Exception("Nao existe agendamento com esse prestador nesse horario!");
     
-    return listaProvisoria.get(0);
+    return listaProvisoria;
   }
 
  
@@ -234,7 +234,7 @@ public class AgendamentoDAO implements AgendamentoInterfaceDAO{
 }
 
 @Override
-public Agendamento getByConstraint(Long id_prestador, Date data, Horarios horario) {
+public List<Agendamento> getByConstraint(Long id_prestador, Date data, Horarios horario) {
   String sql = "SELECT * FROM agendamento WHERE id_prestador = :id AND data = :data AND horario = :horario";
   
   KeyHolder holder = new GeneratedKeyHolder();
@@ -245,7 +245,7 @@ public Agendamento getByConstraint(Long id_prestador, Date data, Horarios horari
       .addValue("horario", horario.getHora());
   
   List<Agendamento> listaProvisoria = template.query(sql, param, new AgendamentoRowMapper());
-  return listaProvisoria.get(0);
+  return listaProvisoria;
 }
 }
 

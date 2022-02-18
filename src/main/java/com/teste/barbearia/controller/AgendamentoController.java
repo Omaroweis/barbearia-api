@@ -56,11 +56,6 @@ public class AgendamentoController {
     return this.agendamentoService.deletarAgendamento(id);
   }
   
-  @ResponseStatus(value = HttpStatus.OK)
-  @GetMapping(value = "/prestadoresDisponiveis")
-  public List<Prestador> getPrestadoresPelaData(@RequestBody Agendamento agendamento) {
-    return agendamentoService.prestadoresDisponiveisPeloHorario(agendamento);
-  }
   
   @ResponseStatus(value = HttpStatus.OK)
   @GetMapping(value = "/ObterPorId")

@@ -10,7 +10,7 @@ public interface ClienteInterfaceDAO {
   
   void save(Cliente t);
   
-  Cliente getById(Long id) throws Exception;
+  List<Cliente> getById(Long id);
   
   void update(Cliente p, Long id);
   

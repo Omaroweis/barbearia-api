@@ -48,7 +48,7 @@ public class PrestadorController {
   }
   
   @ResponseStatus(value=HttpStatus.OK)
-  @DeleteMapping(value = "/Deletar")
+  @DeleteMapping(value = "/deletar")
   public String apagarAgendamento(@RequestParam Long id) throws Exception{
     return this.prestadorService.deletarPrestador(id);
   }

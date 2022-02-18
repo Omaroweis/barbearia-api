@@ -14,9 +14,9 @@ public interface AgendamentoInterfaceDAO{
   void save(Agendamento agendamento);
   
    
-  Agendamento getById(Long id);
+  List<Agendamento> getById(Long id);
   
-  Agendamento getByConstraint(Long id_prestador, Date data, Horarios horario);
+  List<Agendamento> getByConstraint(Long id_prestador, Date data, Horarios horario);
  
   
   void delete(Agendamento agendamento);
