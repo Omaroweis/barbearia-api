@@ -15,6 +15,7 @@ public class ClienteRowMapper implements RowMapper<Cliente>{
     cliente.setId(Long.valueOf(rs.getString("id")));
     cliente.setCpf(rs.getString("cpf"));
     cliente.setNome(rs.getString("nome"));
+    cliente.setId_endereco(Long.valueOf(rs.getString("id_endereco")));
     
     return cliente;
   }

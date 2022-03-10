@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import com.teste.barbearia.model.dao.interfaces.PrestadorInterfaceDAO;
+import com.teste.barbearia.model.dto.PrestadorDTO;
 import com.teste.barbearia.model.entity.Agendamento;
 import com.teste.barbearia.model.entity.Cliente;
 import com.teste.barbearia.model.entity.Prestador;
@@ -40,13 +41,14 @@ public class PrestadorDAO implements PrestadorInterfaceDAO {
   }
 
   @Override
-  public void save(Prestador prestador) {
-String sql = "INSERT INTO prestador(nome, cpf) VALUES (:nome, :cpf)";
+  public void save(PrestadorDTO prestador, Long id_endereco) {
+String sql = "INSERT INTO prestador(nome, cpf, id_endereco) VALUES (:nome, :cpf, :id_endereco)";
     
     KeyHolder holder = new GeneratedKeyHolder();
     SqlParameterSource param = new MapSqlParameterSource()
         .addValue("nome", prestador.getNome())
-        .addValue("cpf", prestador.getCpf());
+        .addValue("cpf", prestador.getCpf())
+        .addValue("id_endereco", id_endereco);
     
     template.update(sql,param, holder);
     
@@ -68,14 +70,16 @@ String sql = "INSERT INTO prestador(nome, cpf) VALUES (:nome, :cpf)";
   }
 
   @Override
-  public void update(Prestador prestador, Long id) {
+  public void update(PrestadorDTO prestador, Long id, long id_endereco) {
         
-    String sql = "UPDATE prestador set nome = :nome, cpf= :cpf WHERE id =:id";
+    String sql = "UPDATE prestador set nome = :nome, cpf= :cpf, id_endereco = :id_endereco WHERE id =:id";
     KeyHolder holder = new GeneratedKeyHolder();
     SqlParameterSource param = new MapSqlParameterSource()
         .addValue("nome",prestador.getNome())
         .addValue("cpf", prestador.getCpf())
-        .addValue("id",id);
+        .addValue("id",id)
+        .addValue("id_endereco", id_endereco);
+    
     
     template.update(sql,param, holder);
     
@@ -107,6 +111,7 @@ String sql = "INSERT INTO prestador(nome, cpf) VALUES (:nome, :cpf)";
     
     return template.query(sql, param, new PrestadorRowMapper());
   }
+
     
  }
   

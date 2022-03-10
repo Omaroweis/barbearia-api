@@ -15,6 +15,7 @@ import javafx.beans.property.adapter.JavaBeanObjectProperty;
 
 public class Prestador{
   private Long id;
+  private Long id_endereco;
   private String cpf;
   private String nome;
   public String getCpf() {
@@ -56,6 +57,12 @@ public class Prestador{
       return false;
     Prestador other = (Prestador) obj;
     return Objects.equals(cpf, other.cpf);
+  }
+  public Long getId_endereco() {
+    return id_endereco;
+  }
+  public void setId_endereco(Long id_endereco) {
+    this.id_endereco = id_endereco;
   }
 }
   

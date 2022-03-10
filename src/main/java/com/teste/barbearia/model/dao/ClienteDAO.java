@@ -9,6 +9,7 @@ import java.util.Optional;
 import com.sun.javafx.collections.MappingChange.Map;
 import org.springframework.jdbc.core.PreparedStatementCallback;
 import com.teste.barbearia.model.dao.interfaces.ClienteInterfaceDAO;
+import com.teste.barbearia.model.dto.ClienteDTO;
 import com.teste.barbearia.model.entity.Cliente;
 import com.teste.barbearia.model.mapper.ClienteRowMapper;
 
@@ -39,13 +40,14 @@ public class ClienteDAO implements ClienteInterfaceDAO{
   }
 
   @Override
-  public void save(Cliente cliente) {
-    String sql = "INSERT INTO cliente(nome, cpf) VALUES (:nome, :cpf)";
+  public void save(ClienteDTO cliente, Long id_endereco) {
+    String sql = "INSERT INTO cliente(nome, cpf, id_endereco) VALUES (:nome, :cpf, :id_endereco)";
     
     KeyHolder holder = new GeneratedKeyHolder();
     SqlParameterSource param = new MapSqlParameterSource()
         .addValue("nome", cliente.getNome())
-        .addValue("cpf", cliente.getCpf());
+        .addValue("cpf", cliente.getCpf())
+        .addValue("id_endereco", id_endereco);
     
     template.update(sql,param, holder);
     
@@ -53,7 +55,7 @@ public class ClienteDAO implements ClienteInterfaceDAO{
 
   @Override
   public List<Cliente> getById(Long id)  {
-    
+    // procurar pelo metodo que retorna apenas objt query for object (cliente.class)
     String sql = "SELECT * FROM cliente WHERE id = :id";
     KeyHolder holder = new GeneratedKeyHolder();
     
@@ -64,14 +66,15 @@ public class ClienteDAO implements ClienteInterfaceDAO{
   }
 
   @Override
-  public void update(Cliente p, Long id) {
+  public void update(ClienteDTO clienteDTO, Long id, Long id_endereco) {
     
-    String sql = "UPDATE cliente set nome = :nome, cpf= :cpf WHERE id = :id";
+    String sql = "UPDATE cliente set nome = :nome, cpf= :cpf, id_endereco = :id_endereco WHERE id = :id";
     KeyHolder holder = new GeneratedKeyHolder();
     SqlParameterSource param = new MapSqlParameterSource()
-        .addValue("nome",p.getNome())
-        .addValue("cpf", p.getCpf())
-        .addValue("id",id);
+        .addValue("nome",clienteDTO.getNome())
+        .addValue("cpf", clienteDTO.getCpf())
+        .addValue("id",id)
+        .addValue("id_endereco", id_endereco);
     
     template.update(sql,param, holder);
     
@@ -97,7 +100,7 @@ public class ClienteDAO implements ClienteInterfaceDAO{
 
   public List<Cliente> search(String cpf) {
     String sql = "SELECT * FROM cliente where cpf = :cpf";
-    
+    //TODO pensar na exceção aqui
     SqlParameterSource param = new MapSqlParameterSource()
         .addValue("cpf", cpf);
     return template.query(sql, param, new ClienteRowMapper());

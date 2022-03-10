@@ -20,15 +20,18 @@ import br.com.caelum.stella.validation.CPFValidator;
 
 
 public class Cliente{
+  
+  private Long id;
+  private String nome;
+  private String cpf;
+  private Long id_endereco;
+  
   public Long getId() {
     return id;
   }
   public void setId(Long id) {
     this.id = id;
   }
-  private Long id;
-  private String nome;
-  private String cpf;
   public static NumeroHorariosOfertados quantidadeHorarios = NumeroHorariosOfertados.NUMERO_HORARIOS_OFERTADOS;
   public String getNome() {
     return nome;
@@ -43,6 +46,12 @@ public class Cliente{
     CPFValidator cpfValidator = new CPFValidator(); 
     List<ValidationMessage> erros = cpfValidator.invalidMessagesFor(cpf);
     this.cpf = cpf;
+  }
+  public Long getId_endereco() {
+    return id_endereco;
+  }
+  public void setId_endereco(Long id_endereco) {
+    this.id_endereco = id_endereco;
   }
   
   

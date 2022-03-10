@@ -52,7 +52,7 @@ public class AgendamentoService {
    }
      return disponiveis;
   }
-  private Integer quantidadeDiasPorMes(String mes) {
+  private Integer quantidadeDiasPorMes(String mes) { //TODO substituir pelo metodo
     switch (Integer.valueOf(mes)) {
       case 2:
           return 28;
@@ -104,7 +104,7 @@ public class AgendamentoService {
 
   }
   
-private boolean IsHorarioInvaldo(Horarios horario) {
+  private boolean IsHorarioInvaldo(Horarios horario) {
  
     
     Time agora = Time.valueOf(LocalTime.now());
@@ -134,16 +134,14 @@ private boolean IsHorarioInvaldo(Horarios horario) {
       throw new ApiRequestException(Mensagens.ERRO_PRESTADOR_INVALIDO.getMensagem());
     
     List<LocalTime> horariosOcupados = this.agendamentoDAO.listHorariosOcupadosByData(horariosDisponiveisPorDiaDTO.getDate(), horariosDisponiveisPorDiaDTO.getId());
-    
-    
-    
+        
     final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-    final LocalTime dateStart = LocalTime.parse(Horarios.OITO.getHora().toString(), formatter);
-    final LocalTime dateEnd = LocalTime.parse(Horarios.DEZESSETE.getHora().toString(), formatter);
+    final LocalTime hourStart = LocalTime.parse(Horarios.OITO.getHora().toString(), formatter);
+    final LocalTime hourEnd = LocalTime.parse(Horarios.DEZESSETE.getHora().toString(), formatter);
     final int hourInterval = 1;
     
     HashSet<String> todos = new HashSet<>();
-    for(LocalTime data = dateStart; data.isBefore(dateEnd); data = data.plusHours(hourInterval)) {
+    for(LocalTime data = hourStart; data.isBefore(hourEnd); data = data.plusHours(hourInterval)) {
       todos.add(data.toString());
     }
     
@@ -154,7 +152,6 @@ private boolean IsHorarioInvaldo(Horarios horario) {
     
     todos.removeAll(horariosOcupadosString);
     return new ArrayList<String>(todos);
-    
   }
   
   public Agendamento getById(Long id) {

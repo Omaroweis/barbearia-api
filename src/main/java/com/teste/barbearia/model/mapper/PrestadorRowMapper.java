@@ -16,6 +16,7 @@ public class PrestadorRowMapper implements RowMapper<Prestador>{
     prestador.setId(Long.valueOf(rs.getString("id")));
     prestador.setCpf(rs.getString("cpf"));
     prestador.setNome(rs.getString("nome"));
+    prestador.setId_endereco(Long.valueOf(rs.getString("id_endereco")));
     
     return prestador;
   }

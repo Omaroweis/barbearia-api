@@ -1,5 +1,7 @@
 package com.teste.barbearia.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.teste.barbearia.model.dto.PrestadorDTO;
+import com.teste.barbearia.model.dto.PrestadorSaidaDTO;
 import com.teste.barbearia.model.entity.Agendamento;
 import com.teste.barbearia.model.entity.Cliente;
 import com.teste.barbearia.model.entity.Prestador;
@@ -26,8 +30,8 @@ public class PrestadorController {
   
   @ResponseStatus(value = HttpStatus.OK)
   @PostMapping(value = "/inserir")
-  public Prestador inserir(@RequestBody Prestador prestador) {
-    return prestadorService.insere(prestador);
+  public PrestadorSaidaDTO inserir(@RequestBody PrestadorDTO prestadorDTO) {
+    return prestadorService.insere(prestadorDTO);
     
   }
   @ResponseStatus(value = HttpStatus.OK)
@@ -43,14 +47,21 @@ public class PrestadorController {
   
   @PutMapping(value="/atualizar")
   @ResponseStatus(value = HttpStatus.OK)
-  public Prestador atualiza(@RequestBody Prestador prestador) throws Exception {
-    return prestadorService.updatePrestador(prestador);
+  public PrestadorSaidaDTO atualiza(@RequestBody PrestadorDTO prestadorDTO) throws Exception {
+    return prestadorService.updatePrestador(prestadorDTO);
   }
   
   @ResponseStatus(value=HttpStatus.OK)
   @DeleteMapping(value = "/deletar")
   public String apagarAgendamento(@RequestParam Long id) throws Exception{
     return this.prestadorService.deletarPrestador(id);
+    
   }
-  
+    
+    @ResponseStatus(value = HttpStatus.OK)
+    @GetMapping(value = "/PrestadoresByEndereco")
+    public List<String> obterPrestadoresPeloEndereco(@RequestParam String cep){
+      return this.prestadorService.getPrestadorByEndereco(cep);
+    }
 }
+

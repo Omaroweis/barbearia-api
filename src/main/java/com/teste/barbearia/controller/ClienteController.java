@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.teste.barbearia.exception.ApiRequestException;
+import com.teste.barbearia.model.dto.ClienteDTO;
+import com.teste.barbearia.model.dto.ClienteSaidaDTO;
 import com.teste.barbearia.model.dto.DiaDisponiveisPorMesDTO;
 import com.teste.barbearia.model.dto.HorariosDisponiveisPorDiaDTO;
 import com.teste.barbearia.model.entity.Agendamento;
@@ -33,13 +35,13 @@ public class ClienteController {
   @Resource
   private ClienteService clienteService;
   @ResponseStatus(value = HttpStatus.OK)
-  @GetMapping(value = "/listarClientes")
+  @GetMapping
    public List<Cliente> listar(){
     return clienteService.listar();
    }
   @ResponseStatus(value = HttpStatus.OK)
-  @PostMapping(value = "/inserir")
-  public Cliente inserir(@RequestBody Cliente cliente) {
+  @PostMapping
+  public ClienteSaidaDTO inserir(@RequestBody ClienteDTO cliente) {
     return clienteService.insere(cliente);
     
   }
@@ -56,8 +58,8 @@ public class ClienteController {
   
   @PutMapping(value="/atualizar")
   @ResponseStatus(value = HttpStatus.OK)
-  public Cliente atualiza(@RequestBody Cliente cliente) throws Exception {
-    return clienteService.updateCliente(cliente);
+  public ClienteSaidaDTO atualiza(@RequestBody ClienteDTO clienteDTO) throws Exception {
+    return clienteService.updateCliente(clienteDTO);
   }
   @ResponseStatus(value = HttpStatus.OK)
   @GetMapping(value="/listarPrestadores")
