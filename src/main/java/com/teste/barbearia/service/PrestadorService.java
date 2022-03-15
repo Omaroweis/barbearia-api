@@ -106,11 +106,11 @@ public class PrestadorService {
   }
 
   public List<String> getPrestadorByEndereco(String cep) {
-    if(!cep.matches("[a-z|A-Z]+.+")) {
+    if(cep.matches("\\d{8}")) { // viacep
     String finalCep = cep.subSequence(0, 5) + "-" + cep.substring(5, cep.length());
     return  this.enderecoService.getPrestadorByEndereco(finalCep);
     }
-    return  this.enderecoService.getPrestadorByEndereco(cep);
+    return  this.enderecoService.getPrestadorByEndereco(cep); // geocoder
   }
 
 }
