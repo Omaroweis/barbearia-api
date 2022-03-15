@@ -59,7 +59,7 @@ public class PrestadorController {
   }
     
     @ResponseStatus(value = HttpStatus.OK)
-    @GetMapping(value = "/PrestadoresByEndereco")
+    @GetMapping
     public List<String> obterPrestadoresPeloEndereco(@RequestParam String cep){
       return this.prestadorService.getPrestadorByEndereco(cep);
     }
