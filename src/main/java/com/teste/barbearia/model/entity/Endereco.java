@@ -1,5 +1,7 @@
 package com.teste.barbearia.model.entity;
 
+import java.util.Objects;
+
 import com.teste.barbearia.provider.dto.interfaces.EnderecoDTO;
 
 public class Endereco {
@@ -53,6 +55,27 @@ public class Endereco {
     }
     public void setPostal(String postal) {
       this.postal = postal;
+    }
+    @Override
+    public int hashCode() {
+      return Objects.hash(cidade, estado, id, postal);
+    }
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj)
+        return true;
+      if (obj == null)
+        return false;
+      if (getClass() != obj.getClass())
+        return false;
+      Endereco other = (Endereco) obj;
+      return Objects.equals(cidade, other.cidade) && Objects.equals(estado, other.estado) && Objects
+        .equals(id, other.id) && Objects.equals(postal, other.postal);
+    }
+    @Override
+    public String toString() {
+      return "Endereco [id=" + id + ", cidade=" + cidade + ", estado=" + estado + ", complemento="
+          + complemento + ", pais=" + pais + ", postal=" + postal + "]";
     }
     
     

@@ -2,6 +2,7 @@ package com.teste.barbearia.model.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -35,6 +36,22 @@ public class Cliente{
   public static NumeroHorariosOfertados quantidadeHorarios = NumeroHorariosOfertados.NUMERO_HORARIOS_OFERTADOS;
   public String getNome() {
     return nome;
+  }
+  @Override
+  public int hashCode() {
+    return Objects.hash(cpf, id, id_endereco, nome);
+  }
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Cliente other = (Cliente) obj;
+    return Objects.equals(cpf, other.cpf) && Objects.equals(id, other.id) && Objects.equals(
+      id_endereco, other.id_endereco) && Objects.equals(nome, other.nome);
   }
   public void setNome(String nome) {
     this.nome = nome;

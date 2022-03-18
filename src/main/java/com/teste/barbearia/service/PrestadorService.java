@@ -26,10 +26,6 @@ public class PrestadorService {
   
   public PrestadorSaidaDTO insere(PrestadorDTO prestadorDTO) {
     
-    if(!this.prestadorDAO.search(prestadorDTO.getCpf()).isEmpty()) {
-      throw new ApiRequestException(Mensagens.ERRO_CPF_JA_EXISTE.getMensagem());
-    }
-    
     if(prestadorDTO.getCpf().isEmpty() || prestadorDTO.getNome().isEmpty())
       throw new ApiRequestException(Mensagens.ERRO_INPUT_PRESTADOR_VAZIO.getMensagem());
     
@@ -38,6 +34,11 @@ public class PrestadorService {
     }catch (Exception e) {
       throw new ApiRequestException(Mensagens.ERRO_CPF_INVALIDO.getMensagem());
     }
+    
+    if(!this.prestadorDAO.search(prestadorDTO.getCpf()).isEmpty()) {
+      throw new ApiRequestException(Mensagens.ERRO_CPF_JA_EXISTE.getMensagem());
+    }
+    
     
     Endereco endereco = this.enderecoService.Request(prestadorDTO.getPais(), prestadorDTO.getCep());
     Long id_endereco = this.enderecoService.save(endereco,prestadorDTO.getComplemento());;

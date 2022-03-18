@@ -46,7 +46,6 @@ import com.teste.barbearia.provider.dto.EnderecoViaCepDTO;
 import com.teste.barbearia.provider.dto.interfaces.EnderecoDTO;
 import com.teste.barbearia.provider.implementacoes.ApiGeoCode;
 import com.teste.barbearia.provider.implementacoes.ApiViaCep;
-import com.teste.barbearia.utils.EnderecoUtils;
 
 import br.com.caelum.stella.ValidationMessage;
 import br.com.caelum.stella.validation.CPFValidator;

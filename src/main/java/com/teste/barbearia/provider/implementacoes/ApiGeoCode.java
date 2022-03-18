@@ -22,8 +22,13 @@ public class ApiGeoCode implements ApiEndereco {
     // https://geocoder.ca/H3Z2Y7?json=1
     String url = "https://geocoder.ca/" + postal + "?json=1";
     RestTemplate restTemplate = new RestTemplate();
-    ResponseEntity<EnderecoGeoCodeDTO> response = 
-        restTemplate.getForEntity(url, EnderecoGeoCodeDTO.class);
+    ResponseEntity<EnderecoGeoCodeDTO> response = null;
+    try {
+     response = restTemplate.getForEntity(url, EnderecoGeoCodeDTO.class);
+    }catch (Exception e) {
+      throw new ApiRequestException(Mensagens.ERRO_POSTAL_INVALIDO.getMensagem());
+    }
+    
     Endereco endereco = null;
     try {
        endereco = new Endereco(response.getBody());

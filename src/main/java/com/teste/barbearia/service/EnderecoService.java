@@ -7,10 +7,11 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 import com.teste.barbearia.exception.ApiRequestException;
+import com.teste.barbearia.factory.Factory;
 import com.teste.barbearia.model.dao.EnderecoDAO;
 import com.teste.barbearia.model.entity.Endereco;
 import com.teste.barbearia.model.enuns.Mensagens;
-import com.teste.barbearia.utils.EnderecoUtils;
+import com.teste.barbearia.provider.ApiEndereco;
 
 @Component
 public class EnderecoService {
@@ -18,7 +19,11 @@ public class EnderecoService {
     private EnderecoDAO enderecoDAO;
     
     public Endereco Request(String pais, String postal) {
-      Endereco endereco = EnderecoUtils.get(pais, postal);
+      
+      ApiEndereco enderecoApi = Factory.getInstace(pais);
+      
+      Endereco endereco = enderecoApi.request(postal); 
+ 
       return endereco;      
     }
     public Long save(Endereco endereco, String complemento) {
