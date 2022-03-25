@@ -1,53 +1,22 @@
 package com.teste.barbearia.service;
 
-import java.util.ArrayList;
-
-import com.teste.barbearia.exception.ApiRequestException;
-import com.teste.barbearia.factory.Factory;
-
-import java.util.Calendar;
-import java.sql.Date;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.util.HashSet;
 import java.util.List;
 
 import javax.annotation.Resource;
 
-import java.sql.Time;
-import java.sql.Timestamp;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.web.accept.HeaderContentNegotiationStrategy;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.teste.barbearia.exception.ApiRequestException;
 import com.teste.barbearia.model.dao.AgendamentoDAO;
 import com.teste.barbearia.model.dao.ClienteDAO;
-import com.teste.barbearia.model.dao.EnderecoDAO;
 import com.teste.barbearia.model.dao.PrestadorDAO;
 import com.teste.barbearia.model.dto.ClienteDTO;
 import com.teste.barbearia.model.dto.ClienteSaidaDTO;
-import com.teste.barbearia.model.dto.DiaDisponiveisPorMesDTO;
-import com.teste.barbearia.model.entity.Agendamento;
 import com.teste.barbearia.model.entity.Cliente;
 import com.teste.barbearia.model.entity.Endereco;
 import com.teste.barbearia.model.entity.Prestador;
-import com.teste.barbearia.model.enuns.Horarios;
 import com.teste.barbearia.model.enuns.Mensagens;
-import com.teste.barbearia.model.enuns.NumeroHorariosOfertados;
-import com.teste.barbearia.provider.ApiEndereco;
-import com.teste.barbearia.provider.dto.EnderecoViaCepDTO;
-import com.teste.barbearia.provider.dto.interfaces.EnderecoDTO;
-import com.teste.barbearia.provider.implementacoes.ApiGeoCode;
-import com.teste.barbearia.provider.implementacoes.ApiViaCep;
 
-import br.com.caelum.stella.ValidationMessage;
 import br.com.caelum.stella.validation.CPFValidator;
 
 @Component

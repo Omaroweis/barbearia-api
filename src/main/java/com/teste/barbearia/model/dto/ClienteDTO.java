@@ -1,7 +1,5 @@
 package com.teste.barbearia.model.dto;
 
-import com.teste.barbearia.model.dao.EnderecoDAO;
-import com.teste.barbearia.model.entity.Cliente;
 import com.teste.barbearia.model.entity.Endereco;
 
 public class ClienteDTO {
